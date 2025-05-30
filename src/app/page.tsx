@@ -1,102 +1,228 @@
-import Image from "next/image";
+import Header from "../components/Header";
+import HeroBanner from "../components/HeroBanner";
+import Section from "../components/Section";
+import CardRow from "../components/CardRow";
+import GenreList from "../components/GenreList";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // Example data for cards
+  const newReleases = [
+    {
+      image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=300&h=450&fit=crop",
+      title: "Cyber Punk 2077",
+      year: "2024",
+      genre: "Sci-Fi",
+      rating: 8.5,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1489599904537-7e2b9e74d6f6?w=300&h=450&fit=crop",
+      title: "Space Odyssey",
+      year: "2024",
+      genre: "Adventure",
+      rating: 9.2,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=300&h=450&fit=crop",
+      title: "Dark Waters",
+      year: "2024",
+      genre: "Thriller",
+      rating: 8.8,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=300&h=450&fit=crop",
+      title: "Fire Storm",
+      year: "2024",
+      genre: "Action",
+      rating: 7.9,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=300&h=450&fit=crop",
+      title: "Quantum Realm",
+      year: "2024",
+      genre: "Sci-Fi",
+      rating: 8.1,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=300&h=450&fit=crop",
+      title: "Night Runner",
+      year: "2024",
+      genre: "Crime",
+      rating: 8.3,
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  const trendingMovies = [
+    {
+      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=450&fit=crop",
+      title: "Arctic Storm",
+      year: "2023",
+      genre: "Action",
+      rating: 8.7,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&h=450&fit=crop",
+      title: "Desert Moon",
+      year: "2023",
+      genre: "Drama",
+      rating: 9.0,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=450&fit=crop",
+      title: "Ocean Deep",
+      year: "2023",
+      genre: "Adventure",
+      rating: 8.4,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=450&fit=crop",
+      title: "City Lights",
+      year: "2023",
+      genre: "Romance",
+      rating: 7.8,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=450&fit=crop",
+      title: "Storm Chaser",
+      year: "2023",
+      genre: "Thriller",
+      rating: 8.9,
+    },
+  ];
+
+  const webSeries = [
+    {
+      image: "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?w=300&h=450&fit=crop",
+      title: "Mind Games",
+      year: "2024",
+      genre: "Thriller",
+      rating: 9.1,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=450&fit=crop",
+      title: "Digital World",
+      year: "2024",
+      genre: "Sci-Fi",
+      rating: 8.6,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop",
+      title: "Lost Chronicles",
+      year: "2024",
+      genre: "Adventure",
+      rating: 8.9,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1489599904537-7e2b9e74d6f6?w=300&h=450&fit=crop",
+      title: "Shadow Agents",
+      year: "2024",
+      genre: "Action",
+      rating: 8.2,
+    },
+    {
+      image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=300&h=450&fit=crop",
+      title: "Royal Court",
+      year: "2024",
+      genre: "Drama",
+      rating: 9.3,
+    },
+  ];
+
+  return (
+    <div className="bg-black text-white min-h-screen font-sans w-full">
+      <Header />
+      <main className="w-full px-0 sm:px-0 py-8">
+        <HeroBanner />
+        <section className="mb-12 w-full">
+          <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <h2 className="text-2xl sm:text-3xl font-bold">New Releases</h2>
+            <button className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1">
+              View All
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <CardRow items={newReleases} />
+          </div>
+        </section>
+        <section className="mb-12 w-full">
+          <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <h2 className="text-2xl sm:text-3xl font-bold">Trending Movies</h2>
+            <button className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1">
+              View All
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <CardRow items={trendingMovies} />
+          </div>
+        </section>
+        <section className="mb-12 w-full">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">Browse by Genre</h2>
+          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <GenreList />
+          </div>
+        </section>
+        <section className="mb-12 w-full">
+          <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <h2 className="text-2xl sm:text-3xl font-bold">Popular Web Series</h2>
+            <button className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1">
+              View All
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <CardRow items={webSeries} />
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <footer className="bg-gray-900 py-8 mt-16 w-full">
+        <div className="w-full px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 max-w-none">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <div className="text-xl font-bold text-red-500 mb-3">StreamFlix</div>
+              <p className="text-gray-400 text-sm">Your ultimate streaming destination.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-3 text-sm">Company</h3>
+              <div className="space-y-2">
+                <div><a href="#" className="text-gray-400 hover:text-white text-sm">About Us</a></div>
+                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Careers</a></div>
+                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Press</a></div>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-3 text-sm">Support</h3>
+              <div className="space-y-2">
+                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Help Center</a></div>
+                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Contact</a></div>
+                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Privacy</a></div>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-3 text-sm">Connect</h3>
+              <div className="flex space-x-3">
+                <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">
+                  <span className="text-xs">f</span>
+                </div>
+                <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">
+                  <span className="text-xs">t</span>
+                </div>
+                <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">
+                  <span className="text-xs">ig</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-6 pt-6 text-center">
+            <p className="text-gray-400 text-sm">&copy; 2024 StreamFlix. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
