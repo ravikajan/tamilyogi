@@ -1,14 +1,12 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { auth } from "@/../auth";
 import Header from "@/components/Header";
 import SearchBar from "@/components/SearchBar";
 import UserAvatar from "@/components/UserAvatar";
 import Card from "@/components/Card";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { redirect } from "next/navigation";
 
 // Demo genre data (should match your GenreList)
 const genres = [
@@ -182,10 +180,7 @@ const sortOptions = [
 
 const MOVIES_PER_PAGE = 20;
 
-export default async function GenrePage() {
-	const session = await auth();
-	if (!session) redirect("/login");
-
+export default function GenrePage() {
 	const params = useParams();
 	const router = useRouter();
 	const slug = params?.slug as string;
