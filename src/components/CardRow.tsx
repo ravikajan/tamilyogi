@@ -8,7 +8,9 @@ interface CardRowProps {
 const CardRow = ({ items }: CardRowProps) => (
   <div className="slider-container flex gap-3 sm:gap-4 overflow-x-auto pb-4">
     {items.map((item, idx) => (
-      <Card key={idx} {...item} />
+      <div key={idx} className="w-44 sm:w-56 md:w-64 min-w-0 flex-shrink-0">
+        <Card {...item} />
+      </div>
     ))}
   </div>
 );

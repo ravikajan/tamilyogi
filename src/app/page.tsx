@@ -1,3 +1,4 @@
+"use client";
 import Header from "../components/Header";
 import HeroBanner from "../components/HeroBanner";
 import Section from "../components/Section";
@@ -137,7 +138,10 @@ export default async function Home() {
         <section className="mb-12 w-full">
           <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
             <h2 className="text-2xl sm:text-3xl font-bold">New Releases</h2>
-            <button className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1">
+            <button
+              className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
+              onClick={() => window.location.href = '/list/new-releases'}
+            >
               View All
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
@@ -151,7 +155,10 @@ export default async function Home() {
         <section className="mb-12 w-full">
           <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
             <h2 className="text-2xl sm:text-3xl font-bold">Trending Movies</h2>
-            <button className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1">
+            <button
+              className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
+              onClick={() => window.location.href = '/list/trending-movies'}
+            >
               View All
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
@@ -171,7 +178,10 @@ export default async function Home() {
         <section className="mb-12 w-full">
           <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
             <h2 className="text-2xl sm:text-3xl font-bold">Popular Web Series</h2>
-            <button className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1">
+            <button
+              className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
+              onClick={() => window.location.href = '/list/web-series'}
+            >
               View All
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>

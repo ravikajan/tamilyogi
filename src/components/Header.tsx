@@ -6,7 +6,7 @@ import UserAvatar from "./UserAvatar";
 const Header = () => {
   const router = useRouter();
   return (
-    <header className="bg-black text-white py-4 px-4 sm:px-8 flex items-center justify-between shadow-md">
+    <header className="sticky top-0 z-50 bg-black bg-opacity-95 backdrop-blur border-b border-gray-800 py-4 px-4 sm:px-8 flex items-center justify-between shadow-md">
       {/* Logo */}
       <div
         className="text-2xl font-bold text-red-500 cursor-pointer select-none"
