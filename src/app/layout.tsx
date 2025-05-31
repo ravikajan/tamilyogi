@@ -42,6 +42,7 @@ export const metadata: Metadata = {
     images: ["/api/og?title=StreamFlix"],
     site: "@streamflix",
   },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
 };
 
 // Add JSON-LD for organization
