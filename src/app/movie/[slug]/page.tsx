@@ -373,31 +373,14 @@ export default function MoviePage() {
 					</div>
 					<div className="slider-container flex gap-3 sm:gap-4 overflow-x-auto pb-4">
 						{related.map((rel) => (
-							<div
+							<Card
 								key={rel.slug}
-								className="movie-card flex-none w-36 sm:w-48 md:w-56 bg-gray-900 rounded-lg overflow-hidden cursor-pointer"
-								onClick={() => router.push(`/movie/${rel.slug}`)}
-							>
-								<img
-									src={rel.image}
-									alt={rel.title}
-									className="w-full h-48 sm:h-64 md:h-72 object-cover"
-								/>
-								<div className="p-3 sm:p-4">
-									<h3 className="font-bold text-sm sm:text-base mb-1 truncate">
-										{rel.title}
-									</h3>
-									<p className="text-gray-400 text-xs sm:text-sm mb-2">
-										{rel.year} • {rel.genres?.[0] || rel.genre}
-									</p>
-									<div className="flex items-center gap-1">
-										<span className="bg-yellow-500 text-black px-1.5 py-0.5 rounded text-xs font-bold">
-											{rel.rating}
-										</span>
-										<span className="text-gray-400 text-xs">IMDb</span>
-									</div>
-								</div>
-							</div>
+								image={rel.image}
+								title={rel.title}
+								year={rel.year.toString()}
+								genre={rel.genres?.[0] || rel.genre}
+								rating={rel.rating}
+							/>
 						))}
 					</div>
 				</section>

@@ -3,6 +3,7 @@ import HeroBanner from "../components/HeroBanner";
 import Section from "../components/Section";
 import CardRow from "../components/CardRow";
 import GenreList from "../components/GenreList";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
  
@@ -182,49 +183,7 @@ export default async function Home() {
           </div>
         </section>
       </main>
-      <footer className="bg-gray-900 py-8 mt-16 w-full">
-        <div className="w-full px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 max-w-none">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div>
-              <div className="text-xl font-bold text-red-500 mb-3">StreamFlix</div>
-              <p className="text-gray-400 text-sm">Your ultimate streaming destination.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3 text-sm">Company</h3>
-              <div className="space-y-2">
-                <div><a href="#" className="text-gray-400 hover:text-white text-sm">About Us</a></div>
-                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Careers</a></div>
-                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Press</a></div>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3 text-sm">Support</h3>
-              <div className="space-y-2">
-                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Help Center</a></div>
-                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Contact</a></div>
-                <div><a href="#" className="text-gray-400 hover:text-white text-sm">Privacy</a></div>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3 text-sm">Connect</h3>
-              <div className="flex space-x-3">
-                <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">
-                  <span className="text-xs">f</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">
-                  <span className="text-xs">t</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">
-                  <span className="text-xs">ig</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-6 pt-6 text-center">
-            <p className="text-gray-400 text-sm">&copy; 2024 StreamFlix. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer></Footer>
     </div>
   );
 }

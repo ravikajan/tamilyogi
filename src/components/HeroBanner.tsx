@@ -1,11 +1,15 @@
 import React from "react";
+import DynamicImage from "./DynamicImage";
 
 const HeroBanner = () => (
   <section className="relative flex flex-col justify-end min-h-[420px] bg-gradient-to-t from-black via-black/80 to-transparent rounded-xl overflow-hidden mb-12">
-    <img
+    <DynamicImage
       src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1200&h=600&fit=crop"
       alt="Banner"
+      width={1200}
+      height={600}
       className="absolute inset-0 w-full h-full object-cover object-center z-0"
+      priority
     />
     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent z-10" />
     <div className="relative z-20 p-8 sm:p-12 max-w-2xl">
