@@ -334,62 +334,24 @@ export default function GenrePage() {
 						</p>
 					</div>
 				</div>
-				{/* Movies Slider Section */}
-				<div className="w-full overflow-x-auto pb-4 mb-8">
-					<div className="flex gap-4 min-w-full">
-						{pagedMovies.length === 0 ? (
-							<div className="text-center text-gray-400 py-12 w-full">
-								No movies found.
+				{/* Movies Grid */}
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6">
+					{pagedMovies.length === 0 ? (
+						<div className="col-span-full text-center text-gray-400 py-12">
+							No movies found.
+						</div>
+					) : (
+						pagedMovies.map((movie, idx) => (
+							<div key={movie.title + idx} className="flex h-full">
+								<Card {...movie} year={movie.year.toString()} />
 							</div>
-						) : (
-							pagedMovies.map((movie, idx) => (
-								<div
-									key={movie.title + idx}
-									className="flex flex-col w-60 min-w-[15rem] bg-gray-900 rounded-lg shadow-md overflow-hidden"
-								>
-									<img
-										src={movie.image}
-										alt={movie.title}
-										className="w-full h-72 object-cover"
-									/>
-									<div className="flex-1 flex flex-col justify-between p-4">
-										<div>
-											<h3 className="text-lg font-bold mb-1">
-												{movie.title}
-											</h3>
-											<p className="text-xs text-gray-400 mb-2">
-												{movie.year} • {movie.genre}
-											</p>
-											<span className="inline-block bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">
-												{movie.rating}
-											</span>
-										</div>
-										<button
-											className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition"
-											onClick={() =>
-												router.push(
-													`/movie/${movie.title
-														.toLowerCase()
-														.replace(/\s+/g, "-")}`
-												)
-											}
-										>
-											Watch
-										</button>
-									</div>
-								</div>
-							))
-						)}
-					</div>
+						))
+					)}
 				</div>
 				{/* Pagination */}
 				{totalPages > 1 && (
 					<div className="mt-12 flex justify-center">
-						<Pagination
-							page={page}
-							totalPages={totalPages}
-							onPageChange={setPage}
-						/>
+						<Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
 					</div>
 				)}
 			</main>
