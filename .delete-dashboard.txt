@@ -1,0 +1,3 @@
+Dashboard routes and client files have been removed as requested:
+- src/app/dashboard/page.tsx
+- src/app/dashboard/dashboard-client.tsx

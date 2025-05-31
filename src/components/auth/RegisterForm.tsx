@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function checkPasswordStrength(password: string) {
   let score = 0;
@@ -12,6 +13,7 @@ function checkPasswordStrength(password: string) {
 }
 
 export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
+  const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +29,7 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
     setStrength(checkPasswordStrength(val));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (password !== confirmPassword) {
@@ -38,6 +40,7 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
     setTimeout(() => {
       setLoading(false);
       alert("Account created successfully! Please check your email for verification.");
+      router.push("/");
     }, 1500);
   };
 

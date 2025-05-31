@@ -3,8 +3,11 @@ import HeroBanner from "../components/HeroBanner";
 import Section from "../components/Section";
 import CardRow from "../components/CardRow";
 import GenreList from "../components/GenreList";
+import { auth } from '../../auth';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+export default async function Home() {
+ 
   // Example data for cards
   const newReleases = [
     {

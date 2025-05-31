@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm({ onSwitch }: { onSwitch?: () => void }) {
   const [email, setEmail] = useState("");
@@ -7,19 +9,28 @@ export default function LoginForm({ onSwitch }: { onSwitch?: () => void }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setTimeout(() => {
-      setLoading(false);
-      if (!email || !password) {
-        setError("Please enter email and password");
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (result?.error) {
+        setError("Invalid credentials");
       } else {
-        alert("Login successful! Redirecting to homepage...");
+        router.push("/");
       }
-    }, 1500);
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
