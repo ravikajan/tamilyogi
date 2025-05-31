@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Card from "@/components/Card";
@@ -91,12 +92,19 @@ const sortOptions = [
 ];
 
 export default function SearchPage() {
+	const { data: session, status } = useSession();
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const [view, setView] = useState("grid");
 	const [filter, setFilter] = useState("All Results");
 	const [sort, setSort] = useState("Relevance");
 	const query = searchParams.get("q") || "";
+
+	useEffect(() => {
+		if (status === "unauthenticated") router.replace("/login");
+	}, [status, router]);
+
+	if (status === "loading") return null;
 
 	// Filter and sort logic (demo)
 	const filtered = allMovies.filter((m) =>

@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Card from "@/components/Card";
@@ -103,10 +104,15 @@ const allMovies = [
 ];
 
 export default function MoviePage() {
+	const { data: session, status } = useSession();
 	const params = useParams();
 	const router = useRouter();
 	const slug = params?.slug as string;
 	const movie = allMovies.find((m) => m.slug === slug);
+	useEffect(() => {
+		if (status === "unauthenticated") router.replace("/login");
+	}, [status, router]);
+	if (status === "loading") return null;
 	if (!movie) {
 		return (
 			<div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">

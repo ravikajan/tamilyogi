@@ -1,3 +1,5 @@
+import { auth } from "@/../auth";
+import { redirect } from "next/navigation";
 import Header from "../components/Header";
 import HeroBanner from "../components/HeroBanner";
 import GenreList from "../components/GenreList";
@@ -5,6 +7,9 @@ import Footer from "@/components/Footer";
 import HomeClientSections from "@/components/HomeClientSections";
 
 export default async function Home() {
+  const session = await auth();
+  if (!session) redirect("/login");
+
   // Example data for cards
   const newReleases = [
     {
