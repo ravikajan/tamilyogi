@@ -1,6 +1,46 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import classNames from "classnames";
+import countries from "react-phone-number-input/locale/en.json";
+import { getCountries, getCountryCallingCode } from "react-phone-number-input/input";
+
+// Custom country select component for react-phone-number-input
+const CountrySelect = React.forwardRef<HTMLSelectElement, {
+  value?: string;
+  onChange: (value: string) => void;
+  options: string[];
+  [key: string]: any;
+}>(({ value, onChange, options, ...rest }, ref) => {
+  // Only remove iconComponent, do NOT remove dropdownClass here
+  const { iconComponent, ...selectProps } = rest;
+  return (
+    <select
+      ref={ref}
+      {...selectProps}
+      value={value || ""}
+      onChange={e => onChange(e.target.value)}
+      className={classNames(
+        "bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent px-3 py-2",
+        selectProps.className
+      )}
+      style={{ backgroundColor: "#1a1a2e", color: "#fff", ...selectProps.style }}
+    >
+      {options
+        .filter((country: string): country is string => typeof country === "string")
+        .map((country: string) => (
+          <option key={country} value={country}>
+            {countryName(country)} (+{getCountryCallingCode(country as any)})
+          </option>
+        ))}
+    </select>
+  );
+});
+
+// Helper to get country name from code
+function countryName(countryCode: string) {
+  return countries[countryCode as keyof typeof countries] || countryCode;
+}
 
 function checkPasswordStrength(password: string) {
   let score = 0;
@@ -14,8 +54,7 @@ function checkPasswordStrength(password: string) {
 
 export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
   const router = useRouter();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,6 +62,7 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [strength, setStrength] = useState(0);
+  const [phone, setPhone] = useState<string>("");
 
   const handlePassword = (val: string) => {
     setPassword(val);
@@ -37,36 +77,75 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Registration failed");
+        setLoading(false);
+        return;
+      }
       setLoading(false);
-      alert("Account created successfully! Please check your email for verification.");
-      router.push("/");
-    }, 1500);
+      alert("Account created successfully! You can now sign in.");
+      router.push("/login");
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">First Name</label>
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+        <input
+          type="text"
+          required
+          className="input-field w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          placeholder="Full Name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+        <div className="flex space-x-2">
+          <select
+            className="bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent px-3 py-2"
+            value={phone.startsWith('+') ? phone.split(' ')[0] : '+91'}
+            onChange={e => {
+              const code = e.target.value;
+              const number = phone.replace(/^\+\d+\s*/, '');
+              setPhone(code + ' ' + number);
+            }}
+            style={{ backgroundColor: "#1a1a2e", color: "#fff" }}
+          >
+            {getCountries().map((country: any) => (
+              <option key={country} value={"+" + getCountryCallingCode(country as any)}>
+                {countryName(country)} (+{getCountryCallingCode(country as any)})
+              </option>
+            ))}
+          </select>
           <input
-            type="text"
+            type="tel"
             required
-            className="input-field w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            placeholder="John"
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Last Name</label>
-          <input
-            type="text"
-            required
-            className="input-field w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            placeholder="Doe"
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
+            className="input-field flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            placeholder="Phone Number"
+            value={phone.startsWith('+') ? phone.replace(/^\+\d+\s*/, '') : phone}
+            onChange={e => {
+              const code = phone.startsWith('+') ? phone.split(' ')[0] : '+91';
+              setPhone(code + ' ' + e.target.value);
+            }}
+            pattern="^\+?[0-9\s()-]{7,}$"
           />
         </div>
       </div>
