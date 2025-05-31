@@ -62,6 +62,9 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [strength, setStrength] = useState(0);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  // Use type assertion for country as CountryCode
+  const [country, setCountry] = useState("IN"); // Default to India
   const [phone, setPhone] = useState<string>("");
 
   const handlePassword = (val: string) => {
@@ -72,8 +75,17 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (password !== confirmPassword) {
-      setError("Passwords do not match!");
+    setFieldErrors({});
+    let errors: { [key: string]: string } = {};
+    if (!name.trim()) errors.name = "Name is required";
+    if (!email.trim()) errors.email = "Email is required";
+    if (!country) errors.country = "Country is required";
+    if (!phone.trim()) errors.phone = "Phone number is required";
+    if (!password) errors.password = "Password is required";
+    if (!confirmPassword) errors.confirmPassword = "Confirm your password";
+    if (password !== confirmPassword) errors.confirmPassword = "Passwords do not match!";
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
       return;
     }
     setLoading(true);
@@ -106,68 +118,74 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Name<span className="text-red-500 ml-1">*</span></label>
         <input
           type="text"
           required
-          className="input-field w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          className={`input-field w-full px-4 py-3 bg-gray-800 border ${fieldErrors.name ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
           placeholder="Full Name"
           value={name}
           onChange={e => setName(e.target.value)}
         />
+        {fieldErrors.name && <p className="text-red-400 text-xs mt-1">{fieldErrors.name}</p>}
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
-        <div className="flex space-x-2">
-          <select
-            className="bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent px-3 py-2"
-            value={phone.startsWith('+') ? phone.split(' ')[0] : '+91'}
-            onChange={e => {
-              const code = e.target.value;
-              const number = phone.replace(/^\+\d+\s*/, '');
-              setPhone(code + ' ' + number);
-            }}
-            style={{ backgroundColor: "#1a1a2e", color: "#fff" }}
-          >
-            {getCountries().map((country: any) => (
-              <option key={country} value={"+" + getCountryCallingCode(country as any)}>
-                {countryName(country)} (+{getCountryCallingCode(country as any)})
-              </option>
-            ))}
-          </select>
-          <input
-            type="tel"
-            required
-            className="input-field flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            placeholder="Phone Number"
-            value={phone.startsWith('+') ? phone.replace(/^\+\d+\s*/, '') : phone}
-            onChange={e => {
-              const code = phone.startsWith('+') ? phone.split(' ')[0] : '+91';
-              setPhone(code + ' ' + e.target.value);
-            }}
-            pattern="^\+?[0-9\s()-]{7,}$"
-          />
-        </div>
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Email Address<span className="text-red-500 ml-1">*</span></label>
         <input
           type="email"
           required
-          className="input-field w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          className={`input-field w-full px-4 py-3 bg-gray-800 border ${fieldErrors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
           placeholder="john@example.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
+        {fieldErrors.email && <p className="text-red-400 text-xs mt-1">{fieldErrors.email}</p>}
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Country<span className="text-red-500 ml-1">*</span></label>
+        <select
+          className={`input-field w-full px-4 py-3 bg-gray-800 border ${fieldErrors.country ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
+          value={country}
+          onChange={e => setCountry(e.target.value)}
+          required
+        >
+          {getCountries().map((c) => (
+            <option key={c} value={c}>
+              {countryName(c)} (+{getCountryCallingCode(c as any)})
+            </option>
+          ))}
+        </select>
+        {fieldErrors.country && <p className="text-red-400 text-xs mt-1">{fieldErrors.country}</p>}
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number<span className="text-red-500 ml-1">*</span></label>
+        <div className="flex">
+          <span className="flex items-center px-3 bg-gray-800 border border-gray-700 rounded-l-lg text-white select-none">+{getCountryCallingCode(country as any)}</span>
+          <input
+            type="tel"
+            required
+            inputMode="numeric"
+            pattern="[0-9]{7,}"
+            className={`input-field flex-1 px-4 py-3 bg-gray-800 border-t border-b border-r ${fieldErrors.phone ? 'border-red-500' : 'border-gray-700'} rounded-r-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
+            placeholder="Phone Number"
+            value={phone}
+            onChange={e => {
+              // Only allow numbers
+              const val = e.target.value.replace(/[^0-9]/g, '');
+              setPhone(val);
+            }}
+          />
+        </div>
+        {fieldErrors.phone && <p className="text-red-400 text-xs mt-1">{fieldErrors.phone}</p>}
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Password<span className="text-red-500 ml-1">*</span></label>
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
             required
             id="signupPassword"
-            className="input-field w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            className={`input-field w-full px-4 py-3 bg-gray-800 border ${fieldErrors.password ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
             placeholder="Create a strong password"
             value={password}
             onChange={e => handlePassword(e.target.value)}
@@ -198,16 +216,17 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Confirm Password<span className="text-red-500 ml-1">*</span></label>
         <input
           type="password"
           required
           id="confirmPassword"
-          className={`input-field w-full px-4 py-3 bg-gray-800 border ${password !== confirmPassword && confirmPassword ? "border-red-500" : "border-gray-700"} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
+          className={`input-field w-full px-4 py-3 bg-gray-800 border ${fieldErrors.confirmPassword ? 'border-red-500' : password !== confirmPassword && confirmPassword ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
           placeholder="Confirm your password"
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
         />
+        {fieldErrors.confirmPassword && <p className="text-red-400 text-xs mt-1">{fieldErrors.confirmPassword}</p>}
       </div>
       {error && <div className="text-red-400 text-sm">{error}</div>}
       <div className="space-y-3">
@@ -241,45 +260,6 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
           "Create Account"
         )}
       </button>
-      <div className="mt-8">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-600"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-transparent text-gray-400">Or sign up with</span>
-          </div>
-        </div>
-        <div className="mt-6 grid grid-cols-3 gap-3">
-          <button type="button" className="social-button w-full bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg py-3 px-4 flex justify-center items-center">
-            <svg className="w-5 h-5 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-            </svg>
-          </button>
-          <button type="button" className="social-button w-full bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg py-3 px-4 flex justify-center items-center">
-            <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-            </svg>
-          </button>
-          <button type="button" className="social-button w-full bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg py-3 px-4 flex justify-center items-center">
-            <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.887 2.747.097.118.112.221.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.754-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div className="text-center mt-8">
-        <p className="text-gray-400 text-sm">
-          Already have an account? {onSwitch && (
-            <button type="button" className="text-red-400 hover:text-red-300 underline ml-1" onClick={onSwitch}>
-              Sign In
-            </button>
-          )}
-        </p>
-      </div>
     </form>
   );
 }

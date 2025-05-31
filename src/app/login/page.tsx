@@ -26,9 +26,9 @@ export default function LoginPage() {
         </div>
 
         {/* Auth Card */}
-        <div className="glass-effect rounded-2xl p-8 shadow-2xl">
+        <div className="glass-effect rounded-xl p-6 shadow-xl"> {/* Reduced padding, border radius, and shadow */}
           {/* Tab Switcher */}
-          <div className="flex bg-gray-800 rounded-lg p-1 mb-8">
+          <div className="flex bg-gray-800 rounded-lg p-1 mb-6"> {/* Reduced margin-bottom */}
             <button
               className={`tab-button flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all ${activeTab === 'login' ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
               onClick={() => setActiveTab('login')}
@@ -50,7 +50,7 @@ export default function LoginPage() {
           </div>
 
           {/* Only render the active form */}
-          <div className="relative min-h-[420px]">
+          <div className="relative min-h-[340px]"> {/* Reduced min height */}
             {activeTab === 'login' ? (
               <LoginForm />
             ) : (
