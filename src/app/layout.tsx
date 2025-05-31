@@ -15,21 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "StreamFlix - Ultimate Streaming Destination",
+  title: "TamilYogiVip - Ultimate Streaming Destination",
   description:
-    "Watch the latest movies and web series online. StreamFlix brings you HD entertainment, trending releases, and more!",
+    "Watch the latest movies and web series online. TamilYogiVip brings you HD entertainment, trending releases, and more!",
   openGraph: {
-    title: "StreamFlix - Ultimate Streaming Destination",
+    title: "TamilYogiVip - Ultimate Streaming Destination",
     description:
-      "Watch the latest movies and web series online. StreamFlix brings you HD entertainment, trending releases, and more!",
-    url: "https://streamflix.example.com/",
-    siteName: "StreamFlix",
+      "Watch the latest movies and web series online. TamilYogiVip brings you HD entertainment, trending releases, and more!",
+    url: "https://tamiliyogivip.example.com/",
+    siteName: "TamilYogiVip",
     images: [
       {
-        url: "/api/og?title=StreamFlix",
+        url: "/api/og?title=TamilYogiVip",
         width: 1200,
         height: 630,
-        alt: "StreamFlix Hero Banner",
+        alt: "TamilYogiVip Hero Banner",
       },
     ],
     locale: "en_US",
@@ -37,11 +37,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "StreamFlix - Ultimate Streaming Destination",
+    title: "TamilYogiVip - Ultimate Streaming Destination",
     description:
-      "Watch the latest movies and web series online. StreamFlix brings you HD entertainment, trending releases, and more!",
-    images: ["/api/og?title=StreamFlix"],
-    site: "@streamflix",
+      "Watch the latest movies and web series online. TamilYogiVip brings you HD entertainment, trending releases, and more!",
+    images: ["/api/og?title=TamilYogiVip"],
+    site: "@tamiliyogivip",
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
 };
@@ -55,13 +55,13 @@ function JsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "StreamFlix",
-          url: "https://streamflix.example.com/",
+          name: "TamilYogiVip",
+          url: "https://tamiliyogivip.example.com/",
           logo: "/favicon.ico",
           sameAs: [
-            "https://facebook.com/streamflix",
-            "https://twitter.com/streamflix",
-            "https://instagram.com/streamflix",
+            "https://facebook.com/tamiliyogivip",
+            "https://twitter.com/tamiliyogivip",
+            "https://instagram.com/tamiliyogivip",
           ],
         }),
       }}

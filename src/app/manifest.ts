@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'StreamFlix',
-    short_name: 'StreamFlix',
+    name: 'TamilYogiVip',
+    short_name: 'TamilYogiVip',
     description: 'Ultimate Movie Streaming App',
     start_url: '/',
     display: 'standalone',

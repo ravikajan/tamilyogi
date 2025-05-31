@@ -282,8 +282,8 @@ export default function MoviePage() {
 									onClick={() => {
 										if (navigator.share) {
 											navigator.share({
-												title: `${movie.title} - StreamFlix`,
-												text: `Check out this amazing movie on StreamFlix!`,
+												title: `${movie.title} - TamilYogiVip`,
+												text: `Check out this amazing movie on TamilYogiVip!`,
 												url: window.location.href,
 											});
 										} else {

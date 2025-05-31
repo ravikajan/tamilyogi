@@ -60,7 +60,7 @@ export default function RegisterSW() {
       <div className="fixed inset-0 z-[1000] flex items-end justify-center pointer-events-none">
         <div className="mb-8 bg-gray-900 border border-gray-700 rounded-xl shadow-xl px-6 py-4 flex items-center gap-4 pointer-events-auto animate-fade-in">
           <span className="text-white font-semibold">
-            To install StreamFlix on iOS, tap{" "}
+            To install TamilYogiVip on iOS, tap{" "}
             <span role="img" aria-label="Share">
               &#x1f5d2;
             </span>{" "}
@@ -77,7 +77,7 @@ export default function RegisterSW() {
     <div className="fixed inset-0 z-[1000] flex items-end justify-center pointer-events-none">
       <div className="mb-8 bg-gray-900 border border-gray-700 rounded-xl shadow-xl px-6 py-4 flex items-center gap-4 pointer-events-auto animate-fade-in">
         <span className="text-white font-semibold">
-          Install StreamFlix for a better experience!
+          Install TamilYogiVip for a better experience!
         </span>
         <button
           className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold ml-2"

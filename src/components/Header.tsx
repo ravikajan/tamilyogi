@@ -19,7 +19,7 @@ const Header = () => {
         aria-label="Go to home page"
         onKeyDown={e => { if (e.key === "Enter" || e.key === " ") router.push("/"); }}
       >
-        StreamFlix
+        TamilYogiVip
       </div>
       {/* Right: Avatar and user info */}
       <div className="flex items-center gap-4">
