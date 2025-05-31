@@ -1,13 +1,10 @@
-"use client";
 import Header from "../components/Header";
 import HeroBanner from "../components/HeroBanner";
-import Section from "../components/Section";
-import CardRow from "../components/CardRow";
 import GenreList from "../components/GenreList";
 import Footer from "@/components/Footer";
+import HomeClientSections from "@/components/HomeClientSections";
 
 export default async function Home() {
- 
   // Example data for cards
   const newReleases = [
     {
@@ -135,61 +132,11 @@ export default async function Home() {
       <Header />
       <main className="w-full px-0 sm:px-0 py-8">
         <HeroBanner />
-        <section className="mb-12 w-full">
-          <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <h2 className="text-2xl sm:text-3xl font-bold">New Releases</h2>
-            <button
-              className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
-              onClick={() => window.location.href = '/list/new-releases'}
-            >
-              View All
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <CardRow items={newReleases} />
-          </div>
-        </section>
-        <section className="mb-12 w-full">
-          <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <h2 className="text-2xl sm:text-3xl font-bold">Trending Movies</h2>
-            <button
-              className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
-              onClick={() => window.location.href = '/list/trending-movies'}
-            >
-              View All
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <CardRow items={trendingMovies} />
-          </div>
-        </section>
+        <HomeClientSections newReleases={newReleases} trendingMovies={trendingMovies} webSeries={webSeries} />
         <section className="mb-12 w-full">
           <h2 className="text-2xl sm:text-3xl font-bold mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">Browse by Genre</h2>
           <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
             <GenreList />
-          </div>
-        </section>
-        <section className="mb-12 w-full">
-          <div className="flex items-center justify-between mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <h2 className="text-2xl sm:text-3xl font-bold">Popular Web Series</h2>
-            <button
-              className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center gap-1"
-              onClick={() => window.location.href = '/list/web-series'}
-            >
-              View All
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-            <CardRow items={webSeries} />
           </div>
         </section>
       </main>
