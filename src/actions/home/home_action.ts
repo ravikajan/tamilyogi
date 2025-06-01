@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma_client/primsa_client';
-import { MovieType } from '@prisma/client'; // adjust based on your enum
 
 export async function getNewReleases(limit: number = 6) {
     return prisma.movie.findMany({
@@ -28,7 +27,7 @@ export async function getTrendingMovies(limit: number = 6) {
             genre: true
         },
         where: {
-            type: MovieType.MOVIE,
+            type: 'MOVIE',
             rating: {
                 gte: 7.5 // Only movies with good ratings
             }
@@ -51,7 +50,7 @@ export async function getPopularWebSeries(limit: number = 6) {
             }
         },
         where: {
-            type: MovieType.WEB_SERIES,
+            type: 'WEB_SERIES',
             rating: {
                 gte: 7.0
             }
