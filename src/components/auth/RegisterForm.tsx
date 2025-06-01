@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
+import { getCurrentCountry } from "@/actions/getCurrentCountry";
 import countries from "react-phone-number-input/locale/en.json";
 import { getCountries, getCountryCallingCode } from "react-phone-number-input/input";
 
@@ -64,8 +65,30 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
   const [strength, setStrength] = useState(0);
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   // Use type assertion for country as CountryCode
-  const [country, setCountry] = useState("IN"); // Default to India
+  const [country, setCountry] = useState<string | undefined>(undefined); // No default
   const [phone, setPhone] = useState<string>("");
+  const [geoMsg, setGeoMsg] = useState<string>("Getting your country details...");
+
+  useEffect(() => {
+    (async () => {
+      setGeoMsg("Getting your country details...");
+      const geo = await getCurrentCountry();
+      if (geo.success && geo.country) {
+        // Find country code by country name
+        const found = Object.entries(countries).find(
+          ([code, name]) => name === geo.country
+        );
+        if (found) {
+          setCountry(found[0]);
+          setGeoMsg("");
+        } else {
+          setGeoMsg("Country not found, defaulting to India.");
+        }
+      } else {
+        setGeoMsg("Could not detect your country, defaulting to India.");
+      }
+    })();
+  }, []);
 
   const handlePassword = (val: string) => {
     setPassword(val);
@@ -145,22 +168,28 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
         <label className="block text-sm font-medium text-gray-300 mb-2">Country<span className="text-red-500 ml-1">*</span></label>
         <select
           className={`input-field w-full px-4 py-3 bg-gray-800 border ${fieldErrors.country ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-          value={country}
+          value={country || ""}
           onChange={e => setCountry(e.target.value)}
           required
         >
+          <option value="" disabled>
+            {geoMsg ? "Detecting country..." : "Select your country"}
+          </option>
           {getCountries().map((c) => (
             <option key={c} value={c}>
               {countryName(c)} (+{getCountryCallingCode(c as any)})
             </option>
           ))}
         </select>
+        {geoMsg && <p className="text-yellow-400 text-xs mt-1">{geoMsg}</p>}
         {fieldErrors.country && <p className="text-red-400 text-xs mt-1">{fieldErrors.country}</p>}
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number<span className="text-red-500 ml-1">*</span></label>
         <div className="flex">
-          <span className="flex items-center px-3 bg-gray-800 border border-gray-700 rounded-l-lg text-white select-none">+{getCountryCallingCode(country as any)}</span>
+          <span className="flex items-center px-3 bg-gray-800 border border-gray-700 rounded-l-lg text-white select-none">
+            {country ? `+${getCountryCallingCode(country as any)}` : <span className="text-gray-500">---</span>}
+          </span>
           <input
             type="tel"
             required
@@ -174,6 +203,7 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
               const val = e.target.value.replace(/[^0-9]/g, '');
               setPhone(val);
             }}
+            disabled={!country}
           />
         </div>
         {fieldErrors.phone && <p className="text-red-400 text-xs mt-1">{fieldErrors.phone}</p>}
