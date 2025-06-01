@@ -28,7 +28,7 @@ const Header = () => {
             <UserAvatar user={session.user} />
             <div className="flex flex-col text-right">
               <span className="text-sm text-white font-semibold">{session.user.name}</span>
-              <span className="text-xs text-gray-400">{session.user.email}</span>
+              {/* <span className="text-xs text-gray-400">{session.user.email}</span> */}
             </div>
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}

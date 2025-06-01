@@ -26,10 +26,78 @@ model User {
 }
 
 model Genre {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  emoji String
-  slug  String @unique
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  emoji     String
+  slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relations
+  movies Movie[]
+
 }
+
+model Movie {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  description String?
+  poster      String?
+  trailer     String?
+  releaseDate DateTime?
+  rating      Float? // IMDB rating
+  type        MovieType @default(MOVIE)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  genreId Int
+  genre   Genre    @relation(fields: [genreId], references: [id])
+  seasons Season[] // Only for web series
+}
+
+model Season {
+  id           Int       @id @default(autoincrement())
+  seasonNumber Int
+  title        String
+  description  String?
+  poster       String?
+  releaseDate  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  movieId  Int
+  movie    Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  episodes Episode[]
+
+  @@unique([movieId, seasonNumber])
+}
+
+model Episode {
+  id            Int       @id @default(autoincrement())
+  episodeNumber Int
+  title         String
+  description   String?
+  thumbnail     String?
+  videoUrl      String? // embedded video URL
+  releaseDate   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  seasonId Int
+  season   Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@unique([seasonId, episodeNumber])
+}
+
+enum MovieType {
+  MOVIE
+  WEB_SERIES
+  TV_SHOW
+  DOCUMENTARY
+}
+
+
