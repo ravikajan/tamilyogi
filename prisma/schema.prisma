@@ -35,7 +35,6 @@ model Genre {
 
   // Relations
   movies Movie[]
-
 }
 
 model Movie {
@@ -45,6 +44,7 @@ model Movie {
   description String?
   poster      String?
   trailer     String?
+  videoUrl    String? // embedded video URL
   releaseDate DateTime?
   rating      Float? // IMDB rating
   type        MovieType @default(MOVIE)
@@ -99,5 +99,3 @@ enum MovieType {
   TV_SHOW
   DOCUMENTARY
 }
-
-
