@@ -7,15 +7,18 @@ export type GeolocationResult = {
 
 export const getCurrentCountry = async (): Promise<GeolocationResult> => {
   try {
-    const response = await fetch('https://ipapi.co/json/');
-    if (!response.ok) {
-      throw new Error('Failed to fetch location data');
-    }
+    // First get IP
+    const ipResponse = await fetch('https://api.ipify.org?format=json');
+    const { ip } = await ipResponse.json();
+    
+    // Then get location
+    const response = await fetch(`http://ip-api.com/json/${ip}`);
     const data = await response.json();
-    if (data.country_name) {
+    
+    if (data.country) {
       return {
         success: true,
-        country: data.country_name
+        country: data.country
       };
     } else {
       return {
@@ -24,7 +27,6 @@ export const getCurrentCountry = async (): Promise<GeolocationResult> => {
       };
     }
   } catch (error) {
-    console.error('Error detecting location:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error occurred'
