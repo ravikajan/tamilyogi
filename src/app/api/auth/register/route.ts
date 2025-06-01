@@ -8,6 +8,7 @@ import { parsePhoneNumberWithError } from "libphonenumber-js";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log("Received registration data:", body);
     const { email, password } = await signInSchema.parseAsync(body);
     // Validate phone number using libphonenumber-js
     if (!body.phone) {
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
         ),
       },
     });
-    return NextResponse.json({ success: true, user: { id: user.id, email: user.email, name: user.name, phone: user.phone } });
+    return NextResponse.json({ success: true, redirect: "/login" });
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.errors }, { status: 400 });

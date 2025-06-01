@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { getCurrentCountry } from "@/actions/getCurrentCountry";
 import countries from "react-phone-number-input/locale/en.json";
 import { getCountries, getCountryCallingCode } from "react-phone-number-input/input";
+import { validateEmail } from "@/actions/validateEmail";
 
 // Custom country select component for react-phone-number-input
 const CountrySelect = React.forwardRef<HTMLSelectElement, {
@@ -102,6 +103,10 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
     let errors: { [key: string]: string } = {};
     if (!name.trim()) errors.name = "Name is required";
     if (!email.trim()) errors.email = "Email is required";
+    else {
+      const emailCheck = await validateEmail(email);
+      if (!emailCheck.isValid) errors.email = emailCheck.error || "Invalid email address";
+    }
     if (!country) errors.country = "Country is required";
     if (!phone.trim()) errors.phone = "Phone number is required";
     if (!password) errors.password = "Password is required";
@@ -118,7 +123,7 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          phone,
+          phone: `+${getCountryCallingCode(country as any)}${phone}`,
           email,
           password,
         }),
@@ -130,6 +135,10 @@ export default function RegisterForm({ onSwitch }: { onSwitch?: () => void }) {
         return;
       }
       setLoading(false);
+      if (data.redirect) {
+        window.location.reload();
+        return;
+      }
       alert("Account created successfully! You can now sign in.");
       router.push("/login");
     } catch (err) {
