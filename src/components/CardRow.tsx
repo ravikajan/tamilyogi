@@ -2,7 +2,19 @@ import React from "react";
 import Card from "./Card";
 
 interface CardRowProps {
-  items: { image: string; title: string; year: string; genre: string; rating: number }[];
+  items: Array<{
+    image: string;
+    title: string;
+    year: string;
+    genre: string;
+    rating: number;
+    slug?: string;
+    type?: string;
+    poster?: string;
+    trailer?: string;
+    videoUrl?: string;
+    seasons?: any[];
+  }>;
 }
 
 const CardRow = ({ items }: CardRowProps) => (

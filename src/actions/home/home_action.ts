@@ -82,6 +82,11 @@ export function transformMovieForCard(movie: any) {
         rating: movie.rating || 0,
         image: movie.poster || "/placeholder-movie.jpg", // Add a default placeholder
         slug: movie.slug,
-        type: movie.type
+        type: movie.type,
+        poster: movie.poster || "",
+        trailer: movie.trailer || "",
+        videoUrl: movie.videoUrl || "",
+        // Add more fields as needed (e.g., seasons, episodes for web series)
+        seasons: movie.seasons || [],
     };
 }

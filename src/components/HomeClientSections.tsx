@@ -12,6 +12,10 @@ interface MovieCard {
   image: string;
   slug: string;
   type: string;
+  poster?: string;
+  trailer?: string;
+  videoUrl?: string;
+  seasons?: any[];
 }
 
 interface HomeClientSectionsProps {

@@ -9,29 +9,34 @@ interface CardProps {
   year: string;
   genre: string;
   rating: number;
+  slug?: string;
+  type?: string;
+  poster?: string;
+  trailer?: string;
+  videoUrl?: string;
+  seasons?: any[];
 }
 
-const Card = ({ image, title, year, genre, rating }: CardProps) => {
+const Card = ({ image, title, year, genre, rating, slug, type, poster, trailer, videoUrl, seasons }: CardProps) => {
   const router = useRouter();
   const [imgLoaded, setImgLoaded] = useState(false);
-  
-  // Generate slug from title (kebab-case)
-  const slug = title
+  // Use slug if provided, else fallback to kebab-case title
+  const movieSlug = slug || title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
   const handleClick = () => {
-    router.push(`/movie/${slug}`);
+    router.push(`/movie/${movieSlug}`);
   };
 
   const handlePlayClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click when play button is clicked
-    router.push(`/movie/${slug}`);
+    e.stopPropagation();
+    router.push(`/movie/${movieSlug}`);
   };
 
   const handleWatchlistClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click when watchlist button is clicked
+    e.stopPropagation();
     // Add watchlist logic here
     console.log(`Added ${title} to watchlist`);
   };
@@ -57,7 +62,10 @@ const Card = ({ image, title, year, genre, rating }: CardProps) => {
           priority={false}
           onLoad={() => setImgLoaded(true)}
         />
-        
+        {/* Optionally show trailer/play icon overlay if trailer or videoUrl exists */}
+        {(trailer || videoUrl) && (
+          <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-1 rounded text-xs text-white">Trailer/Video</div>
+        )}
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="absolute inset-0 flex items-center justify-center">
