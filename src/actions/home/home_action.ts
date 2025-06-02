@@ -21,7 +21,7 @@ export async function getTrendingMovies(limit: number = 6) {
         take: limit,
         orderBy: [
             { rating: 'desc' },
-            { createdAt: 'desc' }
+            { releaseDate: 'desc' }
         ],
         include: {
             genre: true
@@ -29,7 +29,7 @@ export async function getTrendingMovies(limit: number = 6) {
         where: {
             type: 'MOVIE',
             rating: {
-                gte: 7.5 // Only movies with good ratings
+                gte: 7 // Only movies with good ratings
             }
         }
     });
@@ -40,7 +40,7 @@ export async function getPopularWebSeries(limit: number = 6) {
         take: limit,
         orderBy: [
             { rating: 'desc' },
-            { createdAt: 'desc' }
+            { releaseDate: 'desc' }
         ],
         include: {
             genre: true,
