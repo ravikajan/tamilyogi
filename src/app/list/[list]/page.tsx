@@ -1,8 +1,7 @@
 "use client";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, use } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter, useParams } from "next/navigation";
-import { auth } from "@/../auth";
+import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
@@ -160,15 +159,20 @@ const sortOptions = [
 
 const MOVIES_PER_PAGE = 20;
 
-export default function ListPage({ params }: { params: { list: string } }) {
+export default function ListPage({ params }: { params: Promise<{ list: string }> }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  
+  // Use React's use hook to resolve the params Promise
+  const resolvedParams = use(params);
+  const listKey = resolvedParams.list as ListKey;
+
   useEffect(() => {
     if (status === "unauthenticated") router.replace("/login");
   }, [status, router]);
+
   if (status === "loading") return null;
 
-  const listKey = params.list as ListKey;
   const items = [...(allLists[listKey] || [])];
   const title = listTitles[listKey] || "List";
   const description = listDescriptions[listKey] || "";
