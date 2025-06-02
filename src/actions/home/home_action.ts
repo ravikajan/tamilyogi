@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma_client/primsa_client';
 export async function getNewReleases(limit: number = 6) {
     return prisma.movie.findMany({
         take: limit,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { releaseDate: 'desc' },
         include: {
             genre: true
         },
