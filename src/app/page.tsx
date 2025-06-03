@@ -1,10 +1,10 @@
 import { auth } from "@/../auth";
-import { redirect } from "next/navigation";
 import Header from "../components/Header";
 import SearchBanner from "../components/SearchBanner";
 import GenreList from "../components/GenreList";
 import Footer from "@/components/Footer";
 import HomeClientSections from "@/components/HomeClientSections";
+import AuthPopup from "@/components/AuthPopup";
 import {
   getHomePageData,
   transformMovieForCard,
@@ -12,7 +12,6 @@ import {
 
 export default async function Home() {
   const session = await auth();
-  if (!session) redirect("/login");
 
   // Fetch real data from database
   const { newReleases, trendingMovies, webSeries } = await getHomePageData();

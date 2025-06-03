@@ -15,9 +15,8 @@ export default function MoviePage() {
 
 	const [movie, setMovie] = useState<any>(null);
 	const [loading, setLoading] = useState(true);
-
 	useEffect(() => {
-		if (status === "unauthenticated") router.replace("/login");
+		// Remove redirect logic - popup will handle authentication
 	}, [status, router]);
 
 	useEffect(() => {
