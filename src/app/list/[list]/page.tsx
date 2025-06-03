@@ -99,11 +99,12 @@ export default async function ListPage({
   params, 
   searchParams 
 }: { 
-  params: { list: string };
-  searchParams: { page?: string };
+  params: Promise<{ list: string }>;
+  searchParams: Promise<{ page?: string }>;
 }) {
-  const listKey = params.list;
-  const currentPage = parseInt(searchParams.page || '1', 10);
+  const { list: listKey } = await params;
+  const { page } = await searchParams;
+  const currentPage = parseInt(page || '1', 10);
   
   const apiFn = listApiMap[listKey];
   let items: any[] = [];
