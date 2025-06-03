@@ -8,7 +8,6 @@ import HomeClientSections from "@/components/HomeClientSections";
 import AuthPopup from "@/components/AuthPopup";
 import { WebsiteJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { generateSEOMetadata } from "@/components/seo/SEOMetadata";
-import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import {
   getHomePageData,
   transformMovieForCard,
@@ -35,33 +34,28 @@ export default async function Home() {
   const transformedWebSeries = webSeries.map(transformMovieForCard);
 
   return (
-    <div className="relative bg-black text-white min-h-screen font-sans w-full">
-      {/* Animated Background */}
-      <AnimatedBackground variant="default" particleCount={15} />
-      
+    <div className="bg-black text-white min-h-screen font-sans w-full">
       {/* Website JSON-LD structured data */}
       <WebsiteJsonLd />
       
-      <div className="relative z-10">
-        <Header />
-        <main className="w-full px-0 sm:px-0 py-8">
-          <SearchBanner />
-          <HomeClientSections
-            newReleases={transformedNewReleases}
-            trendingMovies={transformedTrendingMovies}
-            webSeries={transformedWebSeries}
-          />
-          <section className="mb-12 w-full">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-              Browse by Genre
-            </h2>
-            <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
-              <GenreList />
-            </div>
-          </section>
-        </main>
-        <Footer />
-      </div>
+      <Header />
+      <main className="w-full px-0 sm:px-0 py-8">
+        <SearchBanner />
+        <HomeClientSections
+          newReleases={transformedNewReleases}
+          trendingMovies={transformedTrendingMovies}
+          webSeries={transformedWebSeries}
+        />
+        <section className="mb-12 w-full">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            Browse by Genre
+          </h2>
+          <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
+            <GenreList />
+          </div>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }

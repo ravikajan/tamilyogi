@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MovieClientPage from "@/components/MovieClientPage";
-import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import { getMovieBySlug } from "@/actions/movie/movie_action";
 import { generateSEOMetadata } from "@/components/seo/SEOMetadata";
 import { MovieJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
@@ -63,6 +62,7 @@ export default async function MoviePage({ params }: PageProps) {
     { name: movie.genre.name, url: `https://tamilyogivip.me/genere/${movie.genre.slug}` },
     { name: movie.title, url: `https://tamilyogivip.me/movie/${movie.slug}` }
   ];
+
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -70,11 +70,9 @@ export default async function MoviePage({ params }: PageProps) {
       <BreadcrumbJsonLd items={breadcrumbItems} />
       
       <MovieClientPage movieData={movie}>
-        <div className="relative bg-black text-white min-h-screen flex flex-col">
-          <AnimatedBackground variant="cinema" particleCount={10} />
-          <div className="relative z-10 flex flex-col min-h-screen">
-            <Header />
-            <main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
+        <div className="bg-black text-white min-h-screen flex flex-col">
+          <Header />
+          <main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
             {/* Breadcrumb */}
             <nav className="mb-6">
               <div className="flex items-center space-x-2 text-sm">
@@ -271,10 +269,10 @@ export default async function MoviePage({ params }: PageProps) {
                     </div>
                   )}
                 </div>
-              </div>            </div>
+              </div>
+            </div>
           </main>
           <Footer />
-          </div>
         </div>
       </MovieClientPage>
     </>

@@ -6,7 +6,6 @@ import Header from "@/components/Header";
 import Card from "@/components/Card";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import { getMoviesByGenre } from "@/actions/genre/genre_action";
 
 // Types
@@ -156,12 +155,12 @@ export default function GenreClientPage({
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
             </div>
         );
-    }    return (
-        <div className="relative bg-black min-h-screen text-white flex flex-col">
-            <AnimatedBackground variant="dark" particleCount={12} />
-            <div className="relative z-10 flex flex-col min-h-screen">
-                <Header />
-                <main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
+    }
+
+    return (
+        <div className="bg-black min-h-screen text-white flex flex-col">
+            <Header />
+            <main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
                 {/* Breadcrumb */}
                 <nav className="mb-6">
                     <div className="flex items-center space-x-2 text-sm">
@@ -297,9 +296,9 @@ export default function GenreClientPage({
                             disabled={loading}
                         />
                     </div>
-                )}            </main>
+                )}
+            </main>
             <Footer />
-            </div>
         </div>
     );
 }
