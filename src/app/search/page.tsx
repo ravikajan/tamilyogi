@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SearchClientPage from "@/components/SearchClientPage";
+import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { generateSEOMetadata } from "@/components/seo/SEOMetadata";
 
@@ -59,20 +60,23 @@ export async function generateMetadata({ searchParams }: SearchPageProps): Promi
 // Loading component for Suspense fallback
 function SearchLoading() {
 	return (
-		<div className="bg-black text-white min-h-screen flex flex-col">
-			<Header />
-			<main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
-				<div className="animate-pulse">
-					<div className="h-8 bg-gray-800 rounded w-1/3 mb-4"></div>
-					<div className="h-4 bg-gray-800 rounded w-1/2 mb-8"></div>
-					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-						{[...Array(12)].map((_, i) => (
-							<div key={i} className="h-64 bg-gray-800 rounded"></div>
-						))}
+		<div className="relative bg-black text-white min-h-screen flex flex-col">
+			<AnimatedBackground variant="search" particleCount={10} />
+			<div className="relative z-10 flex flex-col min-h-screen">
+				<Header />
+				<main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
+					<div className="animate-pulse">
+						<div className="h-8 bg-gray-800 rounded w-1/3 mb-4"></div>
+						<div className="h-4 bg-gray-800 rounded w-1/2 mb-8"></div>
+						<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+							{[...Array(12)].map((_, i) => (
+								<div key={i} className="h-64 bg-gray-800 rounded"></div>
+							))}
+						</div>
 					</div>
-				</div>
-			</main>
-			<Footer />
+				</main>
+				<Footer />
+			</div>
 		</div>
 	);
 }
@@ -83,22 +87,25 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 	const query = params.q || "";
 
 	return (
-		<div className="bg-black text-white min-h-screen flex flex-col">
-			<Header />
-			<main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
-				{/* Breadcrumb JSON-LD */}
-				<BreadcrumbJsonLd
-					items={[
-						{ name: "Home", url: "/" },
-						{ name: "Search Results", url: `/search${query ? `?q=${encodeURIComponent(query)}` : ""}` },
-					]}
-				/>
+		<div className="relative bg-black text-white min-h-screen flex flex-col">
+			<AnimatedBackground variant="search" particleCount={12} />
+			<div className="relative z-10 flex flex-col min-h-screen">
+				<Header />
+				<main className="container mx-auto px-4 sm:px-6 py-8 flex-1">
+					{/* Breadcrumb JSON-LD */}
+					<BreadcrumbJsonLd
+						items={[
+							{ name: "Home", url: "/" },
+							{ name: "Search Results", url: `/search${query ? `?q=${encodeURIComponent(query)}` : ""}` },
+						]}
+					/>
 
-				<Suspense fallback={<SearchLoading />}>
-					<SearchClientPage query={query} />
-				</Suspense>
-			</main>
-			<Footer />
+					<Suspense fallback={<SearchLoading />}>
+						<SearchClientPage query={query} />
+					</Suspense>
+				</main>
+				<Footer />
+			</div>
 		</div>
 	);
 }
