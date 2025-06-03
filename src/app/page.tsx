@@ -1,7 +1,7 @@
 import { auth } from "@/../auth";
 import { redirect } from "next/navigation";
 import Header from "../components/Header";
-import HeroBanner from "../components/HeroBanner";
+import SearchBanner from "../components/SearchBanner";
 import GenreList from "../components/GenreList";
 import Footer from "@/components/Footer";
 import HomeClientSections from "@/components/HomeClientSections";
@@ -26,7 +26,7 @@ export default async function Home() {
     <div className="bg-black text-white min-h-screen font-sans w-full">
       <Header />
       <main className="w-full px-0 sm:px-0 py-8">
-        <HeroBanner />
+        <SearchBanner />
         <HomeClientSections
           newReleases={transformedNewReleases}
           trendingMovies={transformedTrendingMovies}
