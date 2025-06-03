@@ -3,7 +3,7 @@ import { getNewReleases, getTrendingMovies, getPopularWebSeries } from '@/action
 import { getGenreList } from '@/actions/genre/genre_action'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tamilyogivip.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tamilyogivip.me'
   
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
