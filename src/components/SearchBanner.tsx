@@ -113,7 +113,13 @@ const SearchBanner = () => {
             </div>
           </div>          {showDropdown && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900 rounded-lg shadow-2xl border border-gray-700 overflow-hidden z-[60] max-h-80 overflow-y-auto backdrop-blur-sm">
-              {displayResults.length > 0 ? (
+              {isLoading ? (
+                <div className="px-4 py-8 text-center text-gray-400">
+                  <div className="animate-spin h-8 w-8 border-2 border-red-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                  <p className="text-white">Searching movies...</p>
+                  <p className="text-sm mt-1 text-gray-500">Please wait while we find the best results</p>
+                </div>
+              ) : displayResults.length > 0 ? (
                 <>
                   {query.trim().length < 2 && (                    <div className="px-4 py-2 bg-gray-800 text-sm text-gray-300 font-medium border-b border-gray-700">
                       Popular Searches
