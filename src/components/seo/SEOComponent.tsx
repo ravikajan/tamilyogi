@@ -43,6 +43,8 @@ export default function SEOComponent({
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalUrl} />
         
+        {noIndex && <meta name="robots" content="noindex,nofollow" />}
+        
         {/* Open Graph */}
         <meta property="og:title" content={fullTitle} />
         <meta property="og:description" content={description} />

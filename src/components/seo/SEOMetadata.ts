@@ -57,6 +57,17 @@ export function generateSEOMetadata(data: SEOData): Metadata {  const {
     authors: author ? [{ name: author }] : undefined,
     creator: "TamilYogiVip",
     publisher: "TamilYogiVip",
+    robots: {
+      index: !noIndex,
+      follow: !noIndex,
+      googleBot: {
+        index: !noIndex,
+        follow: !noIndex,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
     alternates: {
       canonical: canonicalUrl,
     },
