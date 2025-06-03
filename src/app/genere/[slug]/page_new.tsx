@@ -45,8 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: genreTitle,
     description: genreDescription,
     canonical: `https://tamilyogivip.me/genere/${genre.slug}`,
-    pageType: "genre",
-    subtitle: `HD Movies & Web Series`,
+    ogImage: `https://tamilyogivip.me/api/og?title=${encodeURIComponent(genreTitle)}&type=genre&emoji=${encodeURIComponent(genre.emoji)}`,
     keywords
   });
 }

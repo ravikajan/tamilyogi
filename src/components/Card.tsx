@@ -15,9 +15,10 @@ interface CardProps {
   trailer?: string;
   videoUrl?: string;
   seasons?: any[];
+  onGenreClick?: () => void;
 }
 
-const Card = ({ image, title, year, genre, rating, slug, type, poster, trailer, videoUrl, seasons }: CardProps) => {
+const Card = ({ image, title, year, genre, rating, slug, type, poster, trailer, videoUrl, seasons, onGenreClick }: CardProps) => {
   const router = useRouter();
   const [imgLoaded, setImgLoaded] = useState(false);
   // Use slug if provided, else fallback to kebab-case title
@@ -98,7 +99,12 @@ const Card = ({ image, title, year, genre, rating, slug, type, poster, trailer, 
             {title}
           </h3>
           <p className="text-gray-400 text-xs sm:text-sm mb-2">
-            {year} • {genre}
+            {year} • <span 
+              className={onGenreClick ? "cursor-pointer hover:text-red-400 transition-colors" : ""}
+              onClick={onGenreClick ? (e) => { e.stopPropagation(); onGenreClick(); } : undefined}
+            >
+              {genre}
+            </span>
           </p>
         </div>
         

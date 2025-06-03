@@ -4,6 +4,9 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import RegisterSW from "@/components/RegisterSW";
 import AuthWrapper from "@/components/AuthWrapper";
+import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
+import { PerformanceOptimizer, CriticalCSS } from "@/components/seo/PerformanceOptimizer";
+import { initSEOMonitoring } from "@/lib/seo/seoMonitoring";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,14 +19,37 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TamilYogiVip - Ultimate Streaming Destination",
+  title: {
+    default: "TamilYogiVip - Ultimate Streaming Destination",
+    template: "%s | TamilYogiVip"
+  },
   description:
     "Watch the latest movies and web series online. TamilYogiVip brings you HD entertainment, trending releases, and more!",
+  keywords: ["tamil movies", "web series", "streaming", "HD movies", "online movies", "entertainment", "watch online"],
+  authors: [{ name: "TamilYogiVip" }],
+  creator: "TamilYogiVip",
+  publisher: "TamilYogiVip",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: "TamilYogiVip - Ultimate Streaming Destination",
     description:
       "Watch the latest movies and web series online. TamilYogiVip brings you HD entertainment, trending releases, and more!",
-    url: "https://tamiliyogivip.example.com/",
+    url: "https://tamilyogivip.me",
     siteName: "TamilYogiVip",
     images: [
       {
@@ -42,32 +68,28 @@ export const metadata: Metadata = {
     description:
       "Watch the latest movies and web series online. TamilYogiVip brings you HD entertainment, trending releases, and more!",
     images: ["/api/og?title=TamilYogiVip"],
-    site: "@tamiliyogivip",
+    site: "@tamilyogivip",
+    creator: "@tamilyogivip",
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  verification: {
+    google: "your-google-verification-code",
+    other: {
+      "msvalidate.01": "your-bing-verification-code",
+    },
+  },
+  alternates: {
+    canonical: "https://tamilyogivip.me",
+  },
+  metadataBase: new URL("https://tamilyogivip.me"),
+  other: {
+    "theme-color": "#111111",
+    "color-scheme": "dark",
+  },
 };
 
-// Add JSON-LD for organization
-function JsonLd() {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "TamilYogiVip",
-          url: "https://tamiliyogivip.example.com/",
-          logo: "/favicon.ico",
-          sameAs: [
-            "https://facebook.com/tamiliyogivip",
-            "https://twitter.com/tamiliyogivip",
-            "https://instagram.com/tamiliyogivip",
-          ],
-        }),
-      }}
-    />
-  );
+// Initialize SEO monitoring in development
+if (typeof window !== 'undefined') {
+  initSEOMonitoring();
 }
 
 export default function RootLayout({
@@ -78,19 +100,35 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <JsonLd />
+        <CriticalCSS />
+        <OrganizationJsonLd />
+        <WebsiteJsonLd />
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#111111" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="format-detection" content="telephone=no" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <RegisterSW />
-        <SessionProvider>
-          <AuthWrapper>
-            {children}
-          </AuthWrapper>
-        </SessionProvider>
+        <PerformanceOptimizer
+          prefetchUrls={[
+            '/search',
+            '/genere/action',
+            '/genere/comedy',
+            '/genere/drama',
+            '/list/new-releases',
+            '/list/trending'
+          ]}
+        >
+          <RegisterSW />
+          <SessionProvider>
+            <AuthWrapper>
+              {children}
+            </AuthWrapper>
+          </SessionProvider>
+        </PerformanceOptimizer>
       </body>
     </html>
   );

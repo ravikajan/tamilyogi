@@ -4,6 +4,7 @@ interface PaginationProps {
   page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  disabled?: boolean;
 }
 
 function getPaginationRange(page: number, totalPages: number, delta = 1) {
@@ -20,16 +21,15 @@ function getPaginationRange(page: number, totalPages: number, delta = 1) {
   return range;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange, disabled = false }) => {
   if (totalPages <= 1) return null;
   const range = getPaginationRange(page, totalPages);
 
-  return (
-    <div className="flex items-center justify-center space-x-2">
+  return (    <div className="flex items-center justify-center space-x-2">
       <button
         className="pagination-btn px-3 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 disabled:opacity-50"
         onClick={() => onPageChange(page - 1)}
-        disabled={page === 1}
+        disabled={page === 1 || disabled}
       >
         Previous
       </button>
@@ -43,7 +43,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange 
                 : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
             onClick={() => onPageChange(item)}
-            disabled={page === item}
+            disabled={page === item || disabled}
           >
             {item}
           </button>
@@ -56,7 +56,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange 
       <button
         className="pagination-btn px-3 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 disabled:opacity-50"
         onClick={() => onPageChange(page + 1)}
-        disabled={page === totalPages}
+        disabled={page === totalPages || disabled}
       >
         Next
       </button>

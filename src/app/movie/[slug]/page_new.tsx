@@ -35,13 +35,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     "streaming",
     "TamilYogiVip"
   ];
+
   return generateSEOMetadata({
     title: movieTitle,
     description: movieDescription,
     canonical: `https://tamilyogivip.me/movie/${movie.slug}`,
+    ogImage: movie.poster || `https://tamilyogivip.me/api/og?title=${encodeURIComponent(movieTitle)}&type=movie`,
     ogType: movie.type === "MOVIE" ? "video.movie" : "video.tv_show",
-    pageType: "movie",
-    subtitle: `${movie.releaseDate?.getFullYear()} • ${movie.genre.name}`,
     keywords,
     publishedTime: movie.releaseDate?.toISOString(),
     modifiedTime: movie.updatedAt?.toISOString()
